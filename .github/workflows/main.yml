@@ -44,10 +44,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: .
-          file: ./Dockerfile
-          target: next-cache
-          outputs: type=local,dest=.
           tags: ${{ env.DOCKER_IMAGE }}:latest
 
   deploy:
