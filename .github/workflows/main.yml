@@ -25,13 +25,11 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       # 도커 레이어 캐싱
-      - name: Cache Docker Layers
-        uses: actions/cache@v4
+      - name: Cache docker layers
+        uses: actions/cache@v2
         with:
-          path: |
-            /temp/.buildx-cache
-          key: |
-            ${{ runner.os }}-buildx-${{ env.VERSION }}
+          path: /temp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ env.VERSION }}
           restore-keys: |
             ${{ runner.os }}-buildx-
 
