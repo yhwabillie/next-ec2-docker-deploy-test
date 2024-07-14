@@ -18,45 +18,49 @@ jobs:
       - name: Github Checkout
         uses: actions/checkout@v4
 
-      # yarn v4를 위해 corepack 설정
-      - name: Enable Corepack
-        run: corepack enable
+      # # yarn v4를 위해 corepack 설정
+      # - name: Enable Corepack
+      #   run: corepack enable
 
-      # node 버전 설치
-      - name: Setup Node 20.11.1
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20.11.1
+      # # node 버전 설치
+      # - name: Setup Node 20.11.1
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: 20.11.1
 
-      # yarn 버전 설정
-      - name: Set yarn version
-        id: set-version
-        run: |
-          yarn set version 4.3.1
+      # # yarn 버전 설정
+      # - name: Set yarn version
+      #   id: set-version
+      #   run: |
+      #     yarn set version 4.3.1
 
-      # yarn 의존성 캐시 경로 가져오기
-      - name: Get Yarn Cache Directory Path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      # # yarn 의존성 캐시 경로 가져오기
+      # - name: Get Yarn Cache Directory Path
+      #   id: yarn-cache-dir-path
+      #   run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
 
-      # .next 폴더 내부에 빌드 cache폴더 캐싱하기
-      - name: Cache Nextjs Build
-        uses: actions/cache@v3
-        id: next-cache
-        with:
-          path: |
-            ${{ steps.yarn-cache-dir-path.outputs.dir }}
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
-          restore-keys: |
-            ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
+      # # .next 폴더 내부에 빌드 cache폴더 캐싱하기
+      # - name: Cache Nextjs Build
+      #   uses: actions/cache@v3
+      #   id: next-cache
+      #   with:
+      #     # npm cache files are stored in `~/.npm` on Linux/macOS
+      #     path: |
+      #       ${{ steps.yarn-cache-dir-path.outputs.dir }}
+      #       ${{ github.workspace }}/.next/cache
+
+      #     # Generate a new cache whenever packages or source files change.
+      #     key: ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+
+      #     # If source files changed but packages didn't, rebuild from a prior cache.
+      #     restore-keys: |
+      #       ${{ runner.os }}-nextjs-${{ hashFiles('**/yarn.lock') }}-
 
       - name: .next cache directory [Before Build]
         continue-on-error: true
         run: ls -la ${{ github.workspace }}/.next/cache
 
       # buildx(멀티 플랫폼 빌드 라이브러리, 개발 로컬 M1 -> EC2 리눅스 동일한 이미지 생성 플러그인)
-      # 캐싱 대상 (yarn 의존성, 도커 레이어, .next>cache 폴더)
       - name: SetUp Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v3
@@ -68,6 +72,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GHCR_TOKEN }}
 
+      # 도커 레이어 캐싱
       - name: Build & Push
         uses: docker/build-push-action@v6
         with:
@@ -78,6 +83,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max # 여기서 gha 는 Guthub Actions 용 캐시를 의미합니다.
 
+      # .next > cache 캐싱
       - name: Exporting nextjs build cache
         uses: docker/build-push-action@v6
         with:
