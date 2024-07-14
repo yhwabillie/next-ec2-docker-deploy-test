@@ -1,2 +1,11 @@
+.next
+.yarn
 node_modules
-.next/
+.vscode
+.dockerignore
+.DS_Store
+.git
+.gitignore
+Dockerfile
+README.md
+.prettierrc
