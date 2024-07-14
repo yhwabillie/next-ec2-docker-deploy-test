@@ -2,7 +2,7 @@ FROM node:20.11.1
 
 RUN mkdir -p /app
 WORKDIR /app
-ADD . /app/
+ADD . /app
 
 RUN rm yarn.lock || true
 RUN rm package-lock.json || true
