@@ -24,12 +24,10 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 
 # .next 폴더에 대한 컨테이너 사용자 권한 설정 (root 접속X, 보안)
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+RUN addgroup --system --gid 1001 nodejs && adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 
-RUN mkdir .next
-RUN chown nextjs:nodejs .next
+RUN mkdir .next && chown nextjs:nodejs .next
 
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
