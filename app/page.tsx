@@ -22,6 +22,9 @@ export default function Home() {
         <li>
           github actions용(gha) 캐시를 이용한 도커 레이어, .next 캐시 폴더 캐싱
         </li>
+        <li>
+          워크플로우 runs-on 환경에 맞춰서 github actions 플러그인 버전 설정
+        </li>
       </ul>
     </main>
   );
