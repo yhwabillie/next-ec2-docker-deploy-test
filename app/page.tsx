@@ -10,7 +10,7 @@ export default function Home() {
       <ul>
         <li>Node v20, Yarn Berry v4.x, nodeLinker: node-modules</li>
         <li>NextJS v14, standalone 빌드 사용</li>
-        <li>Github Actions 워크플로우 작성 ✅</li>
+        <li>Github Actions 워크플로우 작성</li>
         <li>
           Github Actions - 종속성 캐싱, next 빌드 cache 캐싱, 도커 레이어 캐싱,
           빌드 속도 개선 ✅
