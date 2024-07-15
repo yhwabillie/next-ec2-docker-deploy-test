@@ -19,6 +19,9 @@ export default function Home() {
         <li>Docker Multi-Stage Build ✅</li>
         <li>Github Container Registry = 도커허브, ECR ✅</li>
         <li>EC2 배포 ✅</li>
+        <li>
+          github actions용(gha) 캐시를 이용한 도커 레이어, .next 캐시 폴더 캐싱
+        </li>
       </ul>
     </main>
   );
